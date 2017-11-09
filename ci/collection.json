@@ -1,0 +1,55 @@
+{
+	"info": {
+		"name": "storm-surge-wf",
+		"_postman_id": "768ba403-da4f-f459-f268-af579781f3dc",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "storm-surge-claim",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Echo - Correct HTTP Code\", function() {",
+							"    pm.response.to.have.status(200);",
+							"})",
+							"",
+							"pm.test(\"Echo - Received JSON back\", function() {",
+							"    pm.response.to.be.json;",
+							"})",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"event_id\": \"GQQPPJJtfd\",\n\t\"event_type\": \"form_response\",\n\t\"form_response\": {\n\t\t\"form_id\": \"krCLZ1\",\n\t\t\"token\": \"4\",\n\t\t\"submitted_at\": \"2017-11-06T10:25:13Z\",\n\t\t\"hidden\": {\n\t\t\t\"email\": \"amitkumarvarman@gmail.com\",\n\t\t\t\"name\": \"Amit\",\n\t\t\t\"phone\": \"01111111111\",\n\t\t\t\"policy\": \"345678\"\n\t\t},\n\t\t\"definition\": {\n\t\t\t\"id\": \"krCLZ1\",\n\t\t\t\"title\": \"TV claim\",\n\t\t\t\"fields\": [{\n\t\t\t\t\"id\": \"XdVgAjnucXRP\",\n\t\t\t\t\"title\": \"Was there a theft or a deliberate event by a 3rd party?\",\n\t\t\t\t\"type\": \"yes_no\",\n\t\t\t\t\"allow_multiple_selections\": false,\n\t\t\t\t\"allow_other_choice\": false\n\t\t\t}, {\n\t\t\t\t\"id\": \"AZbSqcXTKlED\",\n\t\t\t\t\"title\": \"Please enter a  crime/loss reference number.\",\n\t\t\t\t\"type\": \"short_text\",\n\t\t\t\t\"allow_multiple_selections\": false,\n\t\t\t\t\"allow_other_choice\": false\n\t\t\t}, {\n\t\t\t\t\"id\": \"63241151\",\n\t\t\t\t\"title\": \"Please upload a detailed image of the damage\",\n\t\t\t\t\"type\": \"file_upload\",\n\t\t\t\t\"allow_multiple_selections\": false,\n\t\t\t\t\"allow_other_choice\": false\n\t\t\t}, {\n\t\t\t\t\"id\": \"63241244\",\n\t\t\t\t\"title\": \"Please upload any photos of proof of purchase / ownership / box / receipt\",\n\t\t\t\t\"type\": \"file_upload\",\n\t\t\t\t\"allow_multiple_selections\": false,\n\t\t\t\t\"allow_other_choice\": false\n\t\t\t}, {\n\t\t\t\t\"id\": \"63241572\",\n\t\t\t\t\"title\": \"Are you aware of anything else relevant to your claim that you would like to advise us of at this stage?\",\n\t\t\t\t\"type\": \"long_text\",\n\t\t\t\t\"allow_multiple_selections\": false,\n\t\t\t\t\"allow_other_choice\": false\n\t\t\t}, {\n\t\t\t\t\"id\": \"63241542\",\n\t\t\t\t\"title\": \"If you have any other insurance or warranties covering your TV, please advise us of the company name.\",\n\t\t\t\t\"type\": \"short_text\",\n\t\t\t\t\"allow_multiple_selections\": false,\n\t\t\t\t\"allow_other_choice\": false\n\t\t\t}, {\n\t\t\t\t\"id\": \"63241330\",\n\t\t\t\t\"title\": \"When did the incident happen?\",\n\t\t\t\t\"type\": \"date\",\n\t\t\t\t\"allow_multiple_selections\": false,\n\t\t\t\t\"allow_other_choice\": false\n\t\t\t}, {\n\t\t\t\t\"id\": \"QYabj3uz2gs9\",\n\t\t\t\t\"title\": \"In as much detail as possible, please provide a full written account of what has happened to your TV, including where it happened.\",\n\t\t\t\t\"type\": \"long_text\",\n\t\t\t\t\"allow_multiple_selections\": false,\n\t\t\t\t\"allow_other_choice\": false\n\t\t\t}, {\n\t\t\t\t\"id\": \"WwzqHPb0K9Wv\",\n\t\t\t\t\"title\": \"Make of the TV\",\n\t\t\t\t\"type\": \"short_text\",\n\t\t\t\t\"allow_multiple_selections\": false,\n\t\t\t\t\"allow_other_choice\": false\n\t\t\t}, {\n\t\t\t\t\"id\": \"u2dzBoYFjbRA\",\n\t\t\t\t\"title\": \"Serial number of the TV\",\n\t\t\t\t\"type\": \"short_text\",\n\t\t\t\t\"allow_multiple_selections\": false,\n\t\t\t\t\"allow_other_choice\": false\n\t\t\t}, {\n\t\t\t\t\"id\": \"63241939\",\n\t\t\t\t\"title\": \"We have made the following assumptions about your property, you and anyone living with you\",\n\t\t\t\t\"type\": \"legal\",\n\t\t\t\t\"allow_multiple_selections\": false,\n\t\t\t\t\"allow_other_choice\": false\n\t\t\t}, {\n\t\t\t\t\"id\": \"lGCVB9tse6Re\",\n\t\t\t\t\"title\": \"Model number of the TV\",\n\t\t\t\t\"type\": \"short_text\",\n\t\t\t\t\"allow_multiple_selections\": false,\n\t\t\t\t\"allow_other_choice\": false\n\t\t\t}, {\n\t\t\t\t\"id\": \"XiKbgOrX1OAp\",\n\t\t\t\t\"title\": \"Do you still have the TV in your possession?\",\n\t\t\t\t\"type\": \"yes_no\",\n\t\t\t\t\"allow_multiple_selections\": false,\n\t\t\t\t\"allow_other_choice\": false\n\t\t\t}, {\n\t\t\t\t\"id\": \"63391165\",\n\t\t\t\t\"title\": \"What was the purchase price of the TV?\",\n\t\t\t\t\"type\": \"number\",\n\t\t\t\t\"allow_multiple_selections\": false,\n\t\t\t\t\"allow_other_choice\": false\n\t\t\t}]\n\t\t},\n\t\t\"answers\": [{\n\t\t\t\"type\": \"boolean\",\n\t\t\t\"boolean\": true,\n\t\t\t\"field\": {\n\t\t\t\t\"id\": \"XdVgAjnucXRP\",\n\t\t\t\t\"type\": \"yes_no\"\n\t\t\t}\n\t\t}, {\n\t\t\t\"type\": \"text\",\n\t\t\t\"text\": \"DU00000000\",\n\t\t\t\"field\": {\n\t\t\t\t\"id\": \"AZbSqcXTKlED\",\n\t\t\t\t\"type\": \"short_text\"\n\t\t\t}\n\t\t}, {\n\t\t\t\"type\": \"file_url\",\n\t\t\t\"file_url\": \"https://admin.typeform.com/form/results/file/download/krCLZ1/63241151/97750857a9d3-22228398_888332207989782_5676320169463975335_n.jpg\",\n\t\t\t\"field\": {\n\t\t\t\t\"id\": \"63241151\",\n\t\t\t\t\"type\": \"file_upload\"\n\t\t\t}\n\t\t}, {\n\t\t\t\"type\": \"file_url\",\n\t\t\t\"file_url\": \"https://admin.typeform.com/form/results/file/download/krCLZ1/63241244/e6cc84865de7-22405371_888332421323094_6861338905885136899_n.jpg\",\n\t\t\t\"field\": {\n\t\t\t\t\"id\": \"63241244\",\n\t\t\t\t\"type\": \"file_upload\"\n\t\t\t}\n\t\t}, {\n\t\t\t\"type\": \"text\",\n\t\t\t\"text\": \"None\",\n\t\t\t\"field\": {\n\t\t\t\t\"id\": \"63241572\",\n\t\t\t\t\"type\": \"long_text\"\n\t\t\t}\n\t\t}, {\n\t\t\t\"type\": \"text\",\n\t\t\t\"text\": \"None\",\n\t\t\t\"field\": {\n\t\t\t\t\"id\": \"63241542\",\n\t\t\t\t\"type\": \"short_text\"\n\t\t\t}\n\t\t}, {\n\t\t\t\"type\": \"date\",\n\t\t\t\"date\": \"2017-10-01\",\n\t\t\t\"field\": {\n\t\t\t\t\"id\": \"63241330\",\n\t\t\t\t\"type\": \"date\"\n\t\t\t}\n\t\t}, {\n\t\t\t\"type\": \"text\",\n\t\t\t\"text\": \"what happened\",\n\t\t\t\"field\": {\n\t\t\t\t\"id\": \"QYabj3uz2gs9\",\n\t\t\t\t\"type\": \"long_text\"\n\t\t\t}\n\t\t}, {\n\t\t\t\"type\": \"text\",\n\t\t\t\"text\": \"LG\",\n\t\t\t\"field\": {\n\t\t\t\t\"id\": \"WwzqHPb0K9Wv\",\n\t\t\t\t\"type\": \"short_text\"\n\t\t\t}\n\t\t}, {\n\t\t\t\"type\": \"text\",\n\t\t\t\"text\": \"SerialNo\",\n\t\t\t\"field\": {\n\t\t\t\t\"id\": \"u2dzBoYFjbRA\",\n\t\t\t\t\"type\": \"short_text\"\n\t\t\t}\n\t\t}, {\n\t\t\t\"type\": \"boolean\",\n\t\t\t\"boolean\": true,\n\t\t\t\"field\": {\n\t\t\t\t\"id\": \"63241939\",\n\t\t\t\t\"type\": \"legal\"\n\t\t\t}\n\t\t}, {\n\t\t\t\"type\": \"text\",\n\t\t\t\"text\": \"ModelNo\",\n\t\t\t\"field\": {\n\t\t\t\t\"id\": \"lGCVB9tse6Re\",\n\t\t\t\t\"type\": \"short_text\"\n\t\t\t}\n\t\t}, {\n\t\t\t\"type\": \"boolean\",\n\t\t\t\"boolean\": true,\n\t\t\t\"field\": {\n\t\t\t\t\"id\": \"XiKbgOrX1OAp\",\n\t\t\t\t\"type\": \"yes_no\"\n\t\t\t}\n\t\t}, {\n\t\t\t\"type\": \"number\",\n\t\t\t\"number\": 20000,\n\t\t\t\"field\": {\n\t\t\t\t\"id\": \"63391165\",\n\t\t\t\t\"type\": \"number\"\n\t\t\t}\n\t\t}]\n\t}\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8083",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
