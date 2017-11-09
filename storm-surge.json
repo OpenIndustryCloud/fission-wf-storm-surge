@@ -32,7 +32,7 @@
     },
     "ComputeWeatherRisk": {
       "id": "ComputeWeatherRisk",
-      "functionRef": "get-weather-risk",
+      "functionRef": "compute-weather-risk",
       "inputs": {
         "default": {
           "type": "expr",
@@ -48,7 +48,7 @@
     },
     "CreateTicket": {
       "id": "CreateTicket",
-      "functionRef": "register-ticket-v2",
+      "functionRef": "register-ticket",
       "inputs": {
         "default": {
           "type": "expr",
@@ -64,7 +64,7 @@
     },
     "GetWeatherData": {
       "id": "GetWeatherData",
-      "functionRef": "get-weather-data-v2",
+      "functionRef": "weather-data",
       "inputs": {
         "default": {
           "type": "expr",
@@ -92,7 +92,7 @@
     },
     "UpdateRiskData": {
       "id": "UpdateRiskData",
-      "functionRef": "add-risk-data-to-ticket",
+      "functionRef": "add-risk-data",
       "inputs": {
         "default": {
           "type": "expr",
