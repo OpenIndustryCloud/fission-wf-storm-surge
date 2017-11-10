@@ -10,14 +10,14 @@ tasks:
 
   # GET Weather Data
   GetWeatherData:
-    run: weather-data
+    run: ENVIRONMENT-weather-data
     inputs: "{$.Tasks.TransformData.Output.weatherAPIInput}"
     requires:
     - TransformData
     
   # Compute Weather Risk
   ComputeWeatherRisk:
-    run: compute-weather-risk
+    run: ENVIRONMENT-compute-weather-risk
     inputs: "{$.Tasks.GetWeatherData.Output}"
     requires:
     - GetWeatherData
@@ -36,14 +36,13 @@ tasks:
     # Update risk data before creating ticket
   UpdateRiskData:
     run: ENVIRONMENT-add-risk-data
-    run: add-risk-data
     inputs: "{$.Tasks.ComposeResult.Output}"
     requires:
     - ComposeResult
 
     # Create Fresh Desk Ticket
   CreateTicket:
-    run: register-ticket
+    run: ENVIRONMENT-register-ticket
     inputs: "{$.Tasks.UpdateRiskData.Output}"
     requires:
     - UpdateRiskData
