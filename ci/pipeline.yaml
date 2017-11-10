@@ -72,14 +72,14 @@ resources:
     disable_ci_skip: true
     private_key: ((gh-ssh-key))
 # Slack Definitions
-- name: slack-alert-infra
-  type: slack-notification
-  source:
-    url: ((slack-url-infra))
-- name: slack-alert-buildbot
-  type: slack-notification
-  source:
-    url: ((slack-url-buildbot))
+# - name: slack-alert-infra
+#   type: slack-notification
+#   source:
+#     url: ((slack-url-infra))
+# - name: slack-alert-buildbot
+#   type: slack-notification
+#   source:
+#     url: ((slack-url-buildbot))
 # Docker Images
 - name: docker-image-fission-cli
   type: docker-image
@@ -138,7 +138,6 @@ jobs:
   - aggregate:
     - get: docker-image-fission-cli
     - get: docker-image-go-builder
-  - aggregate: 
     - get: fission-go-add-risk-data-src
       trigger: true
     - get: fission-go-compute-weather-risk-src
@@ -150,127 +149,131 @@ jobs:
     - get: fission-go-weather-data-src
       trigger: true
     - get: oic-ci-tasks-src
-  - aggregate: 
-    - task: build-add-risk-data
-      image: docker-image-go-builder
-      file: oic-ci-tasks-src/function/build/build_function.yaml
-      input_mapping: 
-        task-src: oic-ci-tasks-src
-        function-src: fission-go-add-risk-data-src
-      params:
-        FUNCTION_ENVIRONMENT: go
-        FUNCTION_NAME: add-risk-data
-        CODE_PATH: function-src/add-risk-data.go
-    - task: publish-add-risk-data-to-staging
-      image: docker-image-fission-cli
-      file: oic-ci-tasks-src/function/publish/publish_function.yaml
-      params: 
-        ENVIRONMENT: wfstaging
-        FISSION_URL: ((fission-url))
-        FISSION_ROUTER: ((fission-router))
-        FUNCTION_NAME: add-risk-data
-        FUNCTION_ENVIRONMENT: go
-        CODE_PATH: function-src/add-risk-data.so
-        FUNCTION_METHOD: POST
-      input_mapping: 
-        task-src: oic-ci-tasks-src
-        function-src: built-artifacts
-    - task: build-compute-weather-risk
-      image: docker-image-go-builder
-      file: oic-ci-tasks-src/function/build/build_function.yaml
-      input_mapping: 
-        task-src: oic-ci-tasks-src
-        function-src: fission-go-compute-weather-risk-src
-      params:
-        FUNCTION_ENVIRONMENT: go
-        FUNCTION_NAME: compute-weather-risk
-        CODE_PATH: function-src/compute-weather-risk.go
-    - task: publish-compute-weather-risk-to-staging
-      image: docker-image-fission-cli
-      file: oic-ci-tasks-src/function/publish/publish_function.yaml
-      params: 
-        ENVIRONMENT: wfstaging
-        FISSION_URL: ((fission-url))
-        FISSION_ROUTER: ((fission-router))
-        FUNCTION_NAME: compute-weather-risk
-        FUNCTION_ENVIRONMENT: go
-        CODE_PATH: function-src/compute-weather-risk.so
-        FUNCTION_METHOD: POST
-      input_mapping: 
-        task-src: oic-ci-tasks-src
-        function-src: built-artifacts
-    - task: build-add-risk-data
-      image: docker-image-go-builder
-      file: oic-ci-tasks-src/function/build/build_function.yaml
-      input_mapping: 
-        task-src: oic-ci-tasks-src
-        function-src: fission-go-add-risk-data-src
-      params:
-        FUNCTION_ENVIRONMENT: go
-        FUNCTION_NAME: add-risk-data
-        CODE_PATH: function-src/add-risk-data.go
-    - task: publish-add-risk-data-to-staging
-      image: docker-image-fission-cli
-      file: oic-ci-tasks-src/function/publish/publish_function.yaml
-      params: 
-        ENVIRONMENT: wfstaging
-        FISSION_URL: ((fission-url))
-        FISSION_ROUTER: ((fission-router))
-        FUNCTION_NAME: add-risk-data
-        FUNCTION_ENVIRONMENT: go
-        CODE_PATH: function-src/add-risk-data.so
-        FUNCTION_METHOD: POST
-      input_mapping: 
-        task-src: oic-ci-tasks-src
-        function-src: built-artifacts
-    - task: build-register-ticket
-      image: docker-image-go-builder
-      file: oic-ci-tasks-src/function/build/build_function.yaml
-      input_mapping: 
-        task-src: oic-ci-tasks-src
-        function-src: fission-go-register-ticket-src
-      params:
-        FUNCTION_ENVIRONMENT: go
-        FUNCTION_NAME: register-ticket
-        CODE_PATH: function-src/register-ticket.go
-    - task: publish-register-ticket-to-staging
-      image: docker-image-fission-cli
-      file: oic-ci-tasks-src/function/publish/publish_function.yaml
-      params: 
-        ENVIRONMENT: wfstaging
-        FISSION_URL: ((fission-url))
-        FISSION_ROUTER: ((fission-router))
-        FUNCTION_NAME: register-ticket
-        FUNCTION_ENVIRONMENT: go
-        CODE_PATH: function-src/register-ticket.so
-        FUNCTION_METHOD: POST
-      input_mapping: 
-        task-src: oic-ci-tasks-src
-        function-src: built-artifacts
-    - task: build-weather-data
-      image: docker-image-go-builder
-      file: oic-ci-tasks-src/function/build/build_function.yaml
-      input_mapping: 
-        task-src: oic-ci-tasks-src
-        function-src: fission-go-weather-data-src
-      params:
-        FUNCTION_ENVIRONMENT: go
-        FUNCTION_NAME: weather-data
-        CODE_PATH: function-src/weather-data.go
-    - task: publish-weather-data-to-staging
-      image: docker-image-fission-cli
-      file: oic-ci-tasks-src/function/publish/publish_function.yaml
-      params: 
-        ENVIRONMENT: wfstaging
-        FISSION_URL: ((fission-url))
-        FISSION_ROUTER: ((fission-router))
-        FUNCTION_NAME: weather-data
-        FUNCTION_ENVIRONMENT: go
-        CODE_PATH: function-src/weather-data.so
-        FUNCTION_METHOD: POST
-      input_mapping: 
-        task-src: oic-ci-tasks-src
-        function-src: built-artifacts
+
+  - task: build-add-risk-data
+    image: docker-image-go-builder
+    file: oic-ci-tasks-src/function/build/build_function.yaml
+    input_mapping: 
+      task-src: oic-ci-tasks-src
+      function-src: fission-go-add-risk-data-src
+    params:
+      FUNCTION_ENVIRONMENT: go
+      FUNCTION_NAME: add-risk-data
+      CODE_PATH: function-src/add-risk-data.go
+  - task: publish-add-risk-data-to-staging
+    image: docker-image-fission-cli
+    file: oic-ci-tasks-src/function/publish/publish_function.yaml
+    params: 
+      ENVIRONMENT: wfstaging
+      FISSION_URL: ((fission-url))
+      FISSION_ROUTER: ((fission-router))
+      FUNCTION_NAME: add-risk-data
+      FUNCTION_ENVIRONMENT: go
+      CODE_PATH: function-src/add-risk-data.so
+      FUNCTION_METHOD: POST
+    input_mapping: 
+      task-src: oic-ci-tasks-src
+      function-src: built-artifacts
+
+  - task: build-compute-weather-risk
+    image: docker-image-go-builder
+    file: oic-ci-tasks-src/function/build/build_function.yaml
+    input_mapping: 
+      task-src: oic-ci-tasks-src
+      function-src: fission-go-compute-weather-risk-src
+    params:
+      FUNCTION_ENVIRONMENT: go
+      FUNCTION_NAME: compute-weather-risk
+      CODE_PATH: function-src/compute-weather-risk.go
+  - task: publish-compute-weather-risk-to-staging
+    image: docker-image-fission-cli
+    file: oic-ci-tasks-src/function/publish/publish_function.yaml
+    params: 
+      ENVIRONMENT: wfstaging
+      FISSION_URL: ((fission-url))
+      FISSION_ROUTER: ((fission-router))
+      FUNCTION_NAME: compute-weather-risk
+      FUNCTION_ENVIRONMENT: go
+      CODE_PATH: function-src/compute-weather-risk.so
+      FUNCTION_METHOD: POST
+    input_mapping: 
+      task-src: oic-ci-tasks-src
+      function-src: built-artifacts
+
+  - task: build-form-req-transformer
+    image: docker-image-go-builder
+    file: oic-ci-tasks-src/function/build/build_function.yaml
+    input_mapping: 
+      task-src: oic-ci-tasks-src
+      function-src: fission-go-form-req-transformer-src
+    params:
+      FUNCTION_ENVIRONMENT: go
+      FUNCTION_NAME: form-req-transformer
+      CODE_PATH: function-src/form-req-transformer.go
+  - task: publish-form-req-transformer-to-staging
+    image: docker-image-fission-cli
+    file: oic-ci-tasks-src/function/publish/publish_function.yaml
+    params: 
+      ENVIRONMENT: wfstaging
+      FISSION_URL: ((fission-url))
+      FISSION_ROUTER: ((fission-router))
+      FUNCTION_NAME: form-req-transformer
+      FUNCTION_ENVIRONMENT: go
+      CODE_PATH: function-src/form-req-transformer.so
+      FUNCTION_METHOD: POST
+    input_mapping: 
+      task-src: oic-ci-tasks-src
+      function-src: built-artifacts
+
+  - task: build-register-ticket
+    image: docker-image-go-builder
+    file: oic-ci-tasks-src/function/build/build_function.yaml
+    input_mapping: 
+      task-src: oic-ci-tasks-src
+      function-src: fission-go-register-ticket-src
+    params:
+      FUNCTION_ENVIRONMENT: go
+      FUNCTION_NAME: register-ticket
+      CODE_PATH: function-src/register-ticket.go
+  - task: publish-register-ticket-to-staging
+    image: docker-image-fission-cli
+    file: oic-ci-tasks-src/function/publish/publish_function.yaml
+    params: 
+      ENVIRONMENT: wfstaging
+      FISSION_URL: ((fission-url))
+      FISSION_ROUTER: ((fission-router))
+      FUNCTION_NAME: register-ticket
+      FUNCTION_ENVIRONMENT: go
+      CODE_PATH: function-src/register-ticket.so
+      FUNCTION_METHOD: POST
+    input_mapping: 
+      task-src: oic-ci-tasks-src
+      function-src: built-artifacts
+
+  - task: build-weather-data
+    image: docker-image-go-builder
+    file: oic-ci-tasks-src/function/build/build_function.yaml
+    input_mapping: 
+      task-src: oic-ci-tasks-src
+      function-src: fission-go-weather-data-src
+    params:
+      FUNCTION_ENVIRONMENT: go
+      FUNCTION_NAME: weather-data
+      CODE_PATH: function-src/weather-data.go
+  - task: publish-weather-data-to-staging
+    image: docker-image-fission-cli
+    file: oic-ci-tasks-src/function/publish/publish_function.yaml
+    params: 
+      ENVIRONMENT: wfstaging
+      FISSION_URL: ((fission-url))
+      FISSION_ROUTER: ((fission-router))
+      FUNCTION_NAME: weather-data
+      FUNCTION_ENVIRONMENT: go
+      CODE_PATH: function-src/weather-data.so
+      FUNCTION_METHOD: POST
+    input_mapping: 
+      task-src: oic-ci-tasks-src
+      function-src: built-artifacts
 
 - name: publish-workflow
   public: true
@@ -279,8 +282,8 @@ jobs:
     - get: docker-image-fission-cli
     - get: docker-image-newman
     - get: docker-image-wfcli
-    - get: docker-image-go-builder
-      passed: [ "publish-requirements" ]
+  - get: oic-ci-tasks-src
+    passed: [ "publish-requirements" ]
   - get: fission-function-src
     trigger: true
   - task: build-workflow
@@ -290,8 +293,8 @@ jobs:
       task-src: oic-ci-tasks-src
       function-src: fission-function-src
     params:
-      WORKFLOW: storm-surge.yaml
-      ENVIRONMENT: storm-surge-staging
+      WORKFLOW_SRC: storm-surge.yaml
+      ENVIRONMENT: wfstaging
   - task: publish-function-to-staging
     image: docker-image-fission-cli
     file: oic-ci-tasks-src/function/publish/publish_function.yaml
@@ -315,7 +318,7 @@ jobs:
       function-src: fission-function-src
     params:
       FISSION_ROUTER: ((fission-router))
-      ENVIRONMENT: staging
+      ENVIRONMENT: wfstaging
       COLLECTION: function-src/ci/collection.json
       FUNCTION_NAME: storm-surge
       PROTOCOL: http
@@ -326,7 +329,7 @@ jobs:
       image: docker-image-fission-cli
       file: oic-ci-tasks-src/function/remove/remove_function.yaml
       params: 
-        ENVIRONMENT: staging
+        ENVIRONMENT: wfstaging
         FISSION_URL: ((fission-url))
         FISSION_ROUTER: ((fission-router))
         FUNCTION_NAME: storm-surge
@@ -335,22 +338,6 @@ jobs:
       input_mapping: 
         task-src: oic-ci-tasks-src
         function-src: fission-function-src
-      on_success: 
-        put: slack-alert-buildbot
-        params:
-          text: |
-            We successfully tested a function for the infrastructure. See at: 
-            https://concourse.((domain))/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME
-            or at:
-            https://concourse.((domain))/builds/$BUILD_ID
-      on_failure: 
-        put: slack-alert-infra
-        params:
-          text: |
-            WARNING Tests do not pass on a function. See at: 
-            https://concourse.((domain))/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME
-            or at:
-            https://concourse.((domain))/builds/$BUILD_ID
     - task: remove-add-risk-data
       image: docker-image-fission-cli
       file: oic-ci-tasks-src/function/remove/remove_function.yaml
@@ -364,22 +351,6 @@ jobs:
       input_mapping: 
         task-src: oic-ci-tasks-src
         function-src: fission-function-src
-      on_success: 
-        put: slack-alert-buildbot
-        params:
-          text: |
-            We successfully tested a function for the infrastructure. See at: 
-            https://concourse.((domain))/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME
-            or at:
-            https://concourse.((domain))/builds/$BUILD_ID
-      on_failure: 
-        put: slack-alert-infra
-        params:
-          text: |
-            WARNING Tests do not pass on a function. See at: 
-            https://concourse.((domain))/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME
-            or at:
-            https://concourse.((domain))/builds/$BUILD_ID
     - task: remove-compute-weather-risk
       image: docker-image-fission-cli
       file: oic-ci-tasks-src/function/remove/remove_function.yaml
@@ -393,22 +364,6 @@ jobs:
       input_mapping: 
         task-src: oic-ci-tasks-src
         function-src: fission-function-src
-      on_success: 
-        put: slack-alert-buildbot
-        params:
-          text: |
-            We successfully tested a function for the infrastructure. See at: 
-            https://concourse.((domain))/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME
-            or at:
-            https://concourse.((domain))/builds/$BUILD_ID
-      on_failure: 
-        put: slack-alert-infra
-        params:
-          text: |
-            WARNING Tests do not pass on a function. See at: 
-            https://concourse.((domain))/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME
-            or at:
-            https://concourse.((domain))/builds/$BUILD_ID
     - task: remove-form-req-transformer
       image: docker-image-fission-cli
       file: oic-ci-tasks-src/function/remove/remove_function.yaml
@@ -422,22 +377,6 @@ jobs:
       input_mapping: 
         task-src: oic-ci-tasks-src
         function-src: fission-function-src
-      on_success: 
-        put: slack-alert-buildbot
-        params:
-          text: |
-            We successfully tested a function for the infrastructure. See at: 
-            https://concourse.((domain))/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME
-            or at:
-            https://concourse.((domain))/builds/$BUILD_ID
-      on_failure: 
-        put: slack-alert-infra
-        params:
-          text: |
-            WARNING Tests do not pass on a function. See at: 
-            https://concourse.((domain))/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME
-            or at:
-            https://concourse.((domain))/builds/$BUILD_ID
     - task: remove-register-ticket
       image: docker-image-fission-cli
       file: oic-ci-tasks-src/function/remove/remove_function.yaml
@@ -451,22 +390,6 @@ jobs:
       input_mapping: 
         task-src: oic-ci-tasks-src
         function-src: fission-function-src
-      on_success: 
-        put: slack-alert-buildbot
-        params:
-          text: |
-            We successfully tested a function for the infrastructure. See at: 
-            https://concourse.((domain))/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME
-            or at:
-            https://concourse.((domain))/builds/$BUILD_ID
-      on_failure: 
-        put: slack-alert-infra
-        params:
-          text: |
-            WARNING Tests do not pass on a function. See at: 
-            https://concourse.((domain))/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME
-            or at:
-            https://concourse.((domain))/builds/$BUILD_ID
     - task: remove-weather-data
       image: docker-image-fission-cli
       file: oic-ci-tasks-src/function/remove/remove_function.yaml
@@ -480,22 +403,6 @@ jobs:
       input_mapping: 
         task-src: oic-ci-tasks-src
         function-src: fission-function-src
-      on_success: 
-        put: slack-alert-buildbot
-        params:
-          text: |
-            We successfully tested a function for the infrastructure. See at: 
-            https://concourse.((domain))/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME
-            or at:
-            https://concourse.((domain))/builds/$BUILD_ID
-      on_failure: 
-        put: slack-alert-infra
-        params:
-          text: |
-            WARNING Tests do not pass on a function. See at: 
-            https://concourse.((domain))/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME
-            or at:
-            https://concourse.((domain))/builds/$BUILD_ID
 
 - name: create-pr
   public: true
