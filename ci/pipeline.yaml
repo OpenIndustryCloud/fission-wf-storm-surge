@@ -535,18 +535,15 @@ jobs:
     version: every
   - get: docker-image-wfcli
   - get: oic-ci-tasks-src
-  - task: coverage
+  - task: build-workflow
     image: docker-image-wfcli
-    file: oic-ci-tasks-src/go/coverage/coverage.yaml
+    file: oic-ci-tasks-src/workflow/build/build.yaml
     input_mapping: 
       task-src: oic-ci-tasks-src
-      function-src: fission-function-pr
+      function-src: fission-function-src
     params:
-      REPOTOKEN: ((wf-storm-surge-token))
-      KUBERNETES_SERVICE_PORT: ((kubernetes-service-port))
-      KUBERNETES_SERVICE_HOST: ((kubernetes-service-host))
-      KUBERNETES_CA: ((kubernetes-ca))
-      KUBERNETES_TOKEN: ((kubernetes-token))
+      WORKFLOW: storm-surge.yaml
+      ENVIRONMENT: unit-test
     on_success:
       put: fission-function-pr
       params:
