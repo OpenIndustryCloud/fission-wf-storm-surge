@@ -5,20 +5,34 @@ output: CreateTicket
 tasks:
   # Capture TYPE FORM Req and transform for Zen Desk
   TransformData:
-    run: ENVIRONMENT-form-req-transformer
+    run: form-req-transformer
     inputs: "{$.Invocation.Inputs.default}"
 
   # GET Weather Data
   GetWeatherData:
-    run: weather-data
-    inputs: "{$.Tasks.TransformData.Output.weatherAPIInput}"
+    run: if
+    inputs:
+      if: "{$.Tasks.TransformData.Output.status == 200}"
+      then: 
+        run: weather-data
+        inputs: "{$.Tasks.TransformData.Output.weather_api_input}"
+      else:
+        run: compose
+        inputs: "{$.Tasks.TransformData.Output}"
     requires:
     - TransformData
-    
+
   # Compute Weather Risk
   ComputeWeatherRisk:
-    run: compute-weather-risk
-    inputs: "{$.Tasks.GetWeatherData.Output}"
+    run: if
+    inputs:
+      if: "{$.Tasks.GetWeatherData.Output.status == 200}"
+      then: 
+        run: compute-weather-risk
+        inputs: "{$.Tasks.GetWeatherData.Output}"
+      else:
+        run: compose
+        inputs: "{$.Tasks.GetWeatherData.Output}"
     requires:
     - GetWeatherData
 
@@ -35,7 +49,6 @@ tasks:
 
     # Update risk data before creating ticket
   UpdateRiskData:
-    run: ENVIRONMENT-add-risk-data
     run: add-risk-data
     inputs: "{$.Tasks.ComposeResult.Output}"
     requires:
