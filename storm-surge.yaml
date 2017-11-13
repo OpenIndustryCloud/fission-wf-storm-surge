@@ -25,9 +25,9 @@ tasks:
   ComposeResult:
     run: compose
     inputs:
-      tranformedData: "{$.Tasks.TransformData.Output}"
-      weatherData: "{$.Tasks.GetWeatherData.Output}"
-      weatherRisk: "{$.Tasks.ComputeWeatherRisk.Output}"
+      tranformed-data: "{$.Tasks.TransformData.Output}"
+      weather-data: "{$.Tasks.GetWeatherData.Output}"
+      weather-risk: "{$.Tasks.ComputeWeatherRisk.Output}"
     requires:
     - ComputeWeatherRisk
     - GetWeatherData
