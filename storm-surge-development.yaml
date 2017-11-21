@@ -1,12 +1,26 @@
 apiVersion: 1
 description: Storm Surge Claim workflow with Weather Risk
-output: CreateTicket
+output: ComposeResult
 # Input: 'Type Form JSON Output Data'
 tasks:
   # Capture TYPE FORM Req and transform for Zen Desk
   TransformData:
-    run: form-req-transformer
+    run: production-form-req-transformer
     inputs: "{$.Invocation.Inputs.default}"
+
+  # Store Media to Google Storage
+  GoogleStorage:
+    run: if
+    inputs:
+      if: "{$.Tasks.TransformData.Output.status == 200}"
+      then: 
+        run: development-google-storage
+        inputs: "{$.Tasks.TransformData.Output}"
+      else:
+        run: compose
+        inputs: "{$.Tasks.TransformData.Output}"
+    requires:
+    - TransformData
 
   # GET Weather Data
   GetWeatherData:
@@ -14,7 +28,7 @@ tasks:
     inputs:
       if: "{$.Tasks.TransformData.Output.status == 200}"
       then: 
-        run: weather-data
+        run: production-weather-data
         inputs: "{$.Tasks.TransformData.Output.weather_api_input}"
       else:
         run: compose
@@ -28,7 +42,7 @@ tasks:
     inputs:
       if: "{$.Tasks.GetWeatherData.Output.status == 200}"
       then: 
-        run: compute-weather-risk
+        run: production-compute-weather-risk
         inputs: "{$.Tasks.GetWeatherData.Output}"
       else:
         run: compose
@@ -42,21 +56,23 @@ tasks:
       tranformed-data: "{$.Tasks.TransformData.Output}"
       weather-data: "{$.Tasks.GetWeatherData.Output}"
       weather-risk: "{$.Tasks.ComputeWeatherRisk.Output}"
+      media-bucket: "{$.Tasks.GoogleStorage.Output}"
     requires:
     - ComputeWeatherRisk
     - GetWeatherData
     - TransformData
+    - GoogleStorage
 
     # Update risk data before creating ticket
   UpdateRiskData:
-    run: add-risk-data
+    run: development-add-risk-data
     inputs: "{$.Tasks.ComposeResult.Output}"
     requires:
     - ComposeResult
 
     # Create Fresh Desk Ticket
   CreateTicket:
-    run: register-ticket
+    run: production-register-ticket
     inputs: "{$.Tasks.UpdateRiskData.Output}"
     requires:
     - UpdateRiskData
