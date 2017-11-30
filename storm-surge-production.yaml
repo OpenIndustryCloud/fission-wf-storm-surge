@@ -8,6 +8,20 @@ tasks:
     run: production-form-req-transformer
     inputs: "{$.Invocation.Inputs.default}"
 
+  # Store Media to Google Storage
+  GoogleStorage:
+    run: if
+    inputs:
+      if: "{$.Tasks.TransformData.Output.status == 200}"
+      then: 
+        run: production-google-storage
+        inputs: "{$.Tasks.TransformData.Output}"
+      else:
+        run: compose
+        inputs: "{$.Tasks.TransformData.Output}"
+    requires:
+    - TransformData
+
   # GET Weather Data
   GetWeatherData:
     run: if
@@ -42,10 +56,12 @@ tasks:
       tranformed-data: "{$.Tasks.TransformData.Output}"
       weather-data: "{$.Tasks.GetWeatherData.Output}"
       weather-risk: "{$.Tasks.ComputeWeatherRisk.Output}"
+      media-bucket: "{$.Tasks.GoogleStorage.Output}"
     requires:
     - ComputeWeatherRisk
     - GetWeatherData
     - TransformData
+    - GoogleStorage
 
     # Update risk data before creating ticket
   UpdateRiskData:

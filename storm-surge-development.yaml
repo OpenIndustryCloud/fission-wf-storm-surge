@@ -5,7 +5,7 @@ output: ComposeResult
 tasks:
   # Capture TYPE FORM Req and transform for Zen Desk
   TransformData:
-    run: production-form-req-transformer
+    run: development-form-req-transformer
     inputs: "{$.Invocation.Inputs.default}"
 
   # Store Media to Google Storage
@@ -28,7 +28,7 @@ tasks:
     inputs:
       if: "{$.Tasks.TransformData.Output.status == 200}"
       then: 
-        run: production-weather-data
+        run: development-weather-data
         inputs: "{$.Tasks.TransformData.Output.weather_api_input}"
       else:
         run: compose
@@ -42,7 +42,7 @@ tasks:
     inputs:
       if: "{$.Tasks.GetWeatherData.Output.status == 200}"
       then: 
-        run: production-compute-weather-risk
+        run: development-compute-weather-risk
         inputs: "{$.Tasks.GetWeatherData.Output}"
       else:
         run: compose
@@ -72,7 +72,7 @@ tasks:
 
     # Create Fresh Desk Ticket
   CreateTicket:
-    run: production-register-ticket
+    run: development-register-ticket
     inputs: "{$.Tasks.UpdateRiskData.Output}"
     requires:
     - UpdateRiskData

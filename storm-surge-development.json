@@ -1,0 +1,158 @@
+{
+  "tasks": {
+    "ComposeResult": {
+      "id": "ComposeResult",
+      "functionRef": "compose",
+      "inputs": {
+        "media-bucket": {
+          "type": "expr",
+          "value": "eyQuVGFza3MuR29vZ2xlU3RvcmFnZS5PdXRwdXR9"
+        },
+        "tranformed-data": {
+          "type": "expr",
+          "value": "eyQuVGFza3MuVHJhbnNmb3JtRGF0YS5PdXRwdXR9"
+        },
+        "weather-data": {
+          "type": "expr",
+          "value": "eyQuVGFza3MuR2V0V2VhdGhlckRhdGEuT3V0cHV0fQ=="
+        },
+        "weather-risk": {
+          "type": "expr",
+          "value": "eyQuVGFza3MuQ29tcHV0ZVdlYXRoZXJSaXNrLk91dHB1dH0="
+        }
+      },
+      "requires": {
+        "ComputeWeatherRisk": {
+
+        },
+        "GetWeatherData": {
+
+        },
+        "GoogleStorage": {
+
+        },
+        "TransformData": {
+
+        }
+      },
+      "await": 4
+    },
+    "ComputeWeatherRisk": {
+      "id": "ComputeWeatherRisk",
+      "functionRef": "if",
+      "inputs": {
+        "else": {
+          "type": "flow",
+          "value": "CgRlbHNlGgdjb21wb3NlIjIKB2RlZmF1bHQSJwoEZXhwchIfeyQuVGFza3MuR2V0V2VhdGhlckRhdGEuT3V0cHV0fTAA"
+        },
+        "if": {
+          "type": "expr",
+          "value": "eyQuVGFza3MuR2V0V2VhdGhlckRhdGEuT3V0cHV0LnN0YXR1cyA9PSAyMDB9"
+        },
+        "then": {
+          "type": "flow",
+          "value": "CgR0aGVuGiBkZXZlbG9wbWVudC1jb21wdXRlLXdlYXRoZXItcmlzayIyCgdkZWZhdWx0EicKBGV4cHISH3skLlRhc2tzLkdldFdlYXRoZXJEYXRhLk91dHB1dH0wAA=="
+        }
+      },
+      "requires": {
+        "GetWeatherData": {
+
+        }
+      },
+      "await": 1
+    },
+    "CreateTicket": {
+      "id": "CreateTicket",
+      "functionRef": "development-register-ticket",
+      "inputs": {
+        "default": {
+          "type": "expr",
+          "value": "eyQuVGFza3MuVXBkYXRlUmlza0RhdGEuT3V0cHV0fQ=="
+        }
+      },
+      "requires": {
+        "UpdateRiskData": {
+
+        }
+      },
+      "await": 1
+    },
+    "GetWeatherData": {
+      "id": "GetWeatherData",
+      "functionRef": "if",
+      "inputs": {
+        "else": {
+          "type": "flow",
+          "value": "CgRlbHNlGgdjb21wb3NlIjEKB2RlZmF1bHQSJgoEZXhwchIeeyQuVGFza3MuVHJhbnNmb3JtRGF0YS5PdXRwdXR9MAA="
+        },
+        "if": {
+          "type": "expr",
+          "value": "eyQuVGFza3MuVHJhbnNmb3JtRGF0YS5PdXRwdXQuc3RhdHVzID09IDIwMH0="
+        },
+        "then": {
+          "type": "flow",
+          "value": "CgR0aGVuGhhkZXZlbG9wbWVudC13ZWF0aGVyLWRhdGEiQwoHZGVmYXVsdBI4CgRleHByEjB7JC5UYXNrcy5UcmFuc2Zvcm1EYXRhLk91dHB1dC53ZWF0aGVyX2FwaV9pbnB1dH0wAA=="
+        }
+      },
+      "requires": {
+        "TransformData": {
+
+        }
+      },
+      "await": 1
+    },
+    "GoogleStorage": {
+      "id": "GoogleStorage",
+      "functionRef": "if",
+      "inputs": {
+        "else": {
+          "type": "flow",
+          "value": "CgRlbHNlGgdjb21wb3NlIjEKB2RlZmF1bHQSJgoEZXhwchIeeyQuVGFza3MuVHJhbnNmb3JtRGF0YS5PdXRwdXR9MAA="
+        },
+        "if": {
+          "type": "expr",
+          "value": "eyQuVGFza3MuVHJhbnNmb3JtRGF0YS5PdXRwdXQuc3RhdHVzID09IDIwMH0="
+        },
+        "then": {
+          "type": "flow",
+          "value": "CgR0aGVuGhpkZXZlbG9wbWVudC1nb29nbGUtc3RvcmFnZSIxCgdkZWZhdWx0EiYKBGV4cHISHnskLlRhc2tzLlRyYW5zZm9ybURhdGEuT3V0cHV0fTAA"
+        }
+      },
+      "requires": {
+        "TransformData": {
+
+        }
+      },
+      "await": 1
+    },
+    "TransformData": {
+      "id": "TransformData",
+      "functionRef": "development-form-req-transformer",
+      "inputs": {
+        "default": {
+          "type": "expr",
+          "value": "eyQuSW52b2NhdGlvbi5JbnB1dHMuZGVmYXVsdH0="
+        }
+      },
+      "requires": {
+      }
+    },
+    "UpdateRiskData": {
+      "id": "UpdateRiskData",
+      "functionRef": "development-add-risk-data",
+      "inputs": {
+        "default": {
+          "type": "expr",
+          "value": "eyQuVGFza3MuQ29tcG9zZVJlc3VsdC5PdXRwdXR9"
+        }
+      },
+      "requires": {
+        "ComposeResult": {
+
+        }
+      },
+      "await": 1
+    }
+  },
+  "outputTask": "ComposeResult"
+}
